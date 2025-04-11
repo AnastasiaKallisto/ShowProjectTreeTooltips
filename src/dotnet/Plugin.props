@@ -1,0 +1,25 @@
+﻿<Project>
+
+    <PropertyGroup>
+        <!-- See https://www.nuget.org/packages/JetBrains.ReSharper.SDK -->
+        <!-- Keep in sync with ProductVersion in gradle.properties -->
+        <SdkVersion>2024.2.4</SdkVersion>
+
+        <Title>ShowProjectTreeTooltips</Title>
+        <Description>This plugin allows to see tooltips with short description of projects
+            and C# files in .sln project tree in Rider.
+
+            - **.csproj files**: tag "Description" in .csproj
+            - **C# files**: first tag "summary" in .cs files which will be found before "class", "interface" and other c# types
+        </Description>
+
+        <Authors>https://github.com/AnastasiaKallisto</Authors>
+        <Copyright>Copyright $([System.DateTime]::Now.Year) Maintainers of ShowProjectTreeTooltips</Copyright>
+        <PackageTags>rider plugin</PackageTags>
+
+        <PackageProjectUrl></PackageProjectUrl>
+        <PackageLicenseUrl></PackageLicenseUrl>
+        <PackageIconUrl></PackageIconUrl>
+    </PropertyGroup>
+
+</Project>
