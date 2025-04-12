@@ -4,6 +4,8 @@ import org.apache.tools.ant.taskdefs.condition.Os
 import org.jetbrains.intellij.platform.gradle.Constants
 import java.io.ByteArrayOutputStream
 
+fun properties(key: String) = providers.gradleProperty(key)
+
 plugins {
     id("java")
     alias(libs.plugins.kotlinJvm)
@@ -49,7 +51,6 @@ tasks.processResources {
 sourceSets {
     main {
         java.srcDir("src/rider/main/java")
-        kotlin.srcDir("src/rider/main/kotlin")
         resources.srcDir("src/rider/main/resources")
     }
 }
@@ -164,6 +165,8 @@ tasks.patchPluginXml {
     changeNotes.set(changelogMatches.map {
         it.groups[1]!!.value.replace("(?s)\r?\n".toRegex(), "<br />\n")
     }.take(1).joinToString())
+    sinceBuild = properties("pluginSinceBuild")
+    untilBuild = properties("pluginUntilBuild")
 }
 
 tasks.prepareSandbox {

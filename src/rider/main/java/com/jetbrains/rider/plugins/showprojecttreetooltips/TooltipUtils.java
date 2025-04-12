@@ -7,6 +7,7 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
 import com.jetbrains.rider.languages.fileTypes.csharp.psi.CSharpDocComment;
+import com.jetbrains.rider.languages.fileTypes.csharp.psi.CSharpNamespaceDeclaration;
 import com.jetbrains.rider.languages.fileTypes.csharp.psi.impl.CSharpDummyDeclaration;
 import org.jetbrains.annotations.NotNull;
 import org.w3c.dom.Document;
@@ -35,6 +36,10 @@ public class TooltipUtils {
                 .flatMap(element -> Arrays.stream(element.getChildren()))
                 .filter(child -> child instanceof CSharpDummyDeclaration)
                 .findFirst();
+        if (first.isPresent() && first.get() instanceof CSharpNamespaceDeclaration) {
+            // если namespace, добавляем его детей
+            first = Optional.ofNullable(first.get().getFirstChild());
+        }
         if (first.isPresent()) {
             CSharpDocComment docComment = ((CSharpDummyDeclaration) first.get()).getDocComment();
             if (docComment != null)

@@ -1,6 +1,6 @@
 Param(
     $RootSuffix = "ShowProjectTreeTooltips",
-    $Version = "9999.0.0"
+    $Version = "1.0.0"
 )
 
 Set-StrictMode -Version Latest
