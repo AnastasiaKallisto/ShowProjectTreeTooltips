@@ -1,8 +1,6 @@
 package com.jetbrains.rider.plugins.showprojecttreetooltips;
 
 import com.intellij.ide.projectView.ProjectView;
-import com.intellij.ide.ui.IJColorUIResource;
-import com.intellij.ide.ui.UITheme;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.startup.ProjectActivity;
 import com.jetbrains.rider.projectView.views.solutionExplorer.nodes.SolutionExplorerModelNode;
@@ -16,8 +14,6 @@ import javax.swing.tree.TreePath;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
-import java.lang.reflect.Field;
-import java.util.Arrays;
 
 
 public class TooltipProjectActivity implements ProjectActivity {
@@ -30,6 +26,7 @@ public class TooltipProjectActivity implements ProjectActivity {
             ProjectView projectView = ProjectView.getInstance(project);
             JTree tree = projectView.getCurrentProjectViewPane().getTree();
             if (tree == null) return;
+            var state = AppSettings.getInstance().getState();
 
             if (!UIManager.getColor("Tooltip.background").equals(new Color(43,45,48))) {
                 UIManager.put("ToolTip.background", Color.WHITE);
@@ -39,6 +36,8 @@ public class TooltipProjectActivity implements ProjectActivity {
             tree.addMouseMotionListener(new MouseMotionAdapter() {
                 @Override
                 public void mouseMoved(MouseEvent e) {
+                    if (!state.showCsprojDescription && !state.showClassSummary)
+                        return;
                     TreePath path = tree.getPathForLocation(e.getX(), e.getY());
                     if (path == null) {
                         tree.setToolTipText(null);
@@ -66,7 +65,6 @@ public class TooltipProjectActivity implements ProjectActivity {
                     }
 
                     var fileExtension = virtualFile.getExtension();
-                    var state = AppSettings.getInstance().getState();
 
                     String tooltipText = null;
                     if (state.showCsprojDescription && "csproj".equals(fileExtension)) {
