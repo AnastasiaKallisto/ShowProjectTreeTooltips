@@ -36,7 +36,7 @@ public class TooltipUtils {
      * Извлекает текст XML-документации (тег <b>&lt;summary&gt;</b>) из первого найденного C# класса,
      * структуры или интерфейса в указанном файле. <br/>
      * Сначала пытается найти такие элементы внутри пространства имён, если оно присутствует.
-     * Если пространства имён нет, выполняет поиск в корне файла.
+     * Если пространства имён нет, выполняет поиск в корне файла. <br/>
      * Возвращает текст комментария (без ///, но с &lt;br/&gt;)
      * </summary>
      *
@@ -45,14 +45,17 @@ public class TooltipUtils {
      * @return Строка с текстом документации или null, если комментарий не найден.
      */
     public static String extractSummary(VirtualFile virtualFile, @NotNull Project project) {
+        // Получаем PSI-файл для работы с синтаксическим деревом
         PsiFile psiFile = PsiManager.getInstance(project).findFile(virtualFile);
 
         Optional<@NotNull PsiElement> csharpElement;
 
+        // Пробуем найти пространство имён
         var maybeNamespace = Arrays.stream(psiFile.getChildren())
                 .filter(child -> child instanceof CSharpNamespaceDeclaration)
                 .findFirst();
         if (maybeNamespace.isPresent()){
+            // Если пространство имён найдено, ищем в нём CSharpDummyDeclaration через CSharpDummyBlock
             csharpElement = maybeNamespace
                     .map(namespace -> Arrays.stream(namespace.getChildren())
                             .filter(child -> child instanceof CSharpDummyBlock)
@@ -64,17 +67,20 @@ public class TooltipUtils {
                             .orElse(null)
                     );
         } else {
+            // Если пространства имён нет, ищем CSharpDummyDeclaration в корне
             csharpElement = Arrays.stream(psiFile.getChildren())
                     .flatMap(element -> Arrays.stream(element.getChildren()))
                     .filter(child -> child instanceof CSharpDummyDeclaration)
                     .findFirst();
         }
+
+        // Извлекаем XML-комментарий, если он есть
         if (csharpElement != null && csharpElement.isPresent()) {
             CSharpDocComment docComment = ((CSharpDummyDeclaration) csharpElement.get()).getDocComment();
             if (docComment != null)
-                return docComment.getMeaningfulText();
+                return docComment.getMeaningfulText();  // только текст <summary>
         }
-        return null;
+        return null; // комментарий не найден
     }
 
 }
