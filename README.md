@@ -26,7 +26,7 @@ It can be configured in settings (**File → Settings → Tools → Tooltips in 
 
 Install plugin + Java 17 (or later)
 
-[![Rider](https://img.shields.io/jetbrains/plugin/v/RIDER_PLUGIN_ID.svg?label=Rider&colorB=0A7BBB&style=for-the-badge&logo=rider)](https://plugins.jetbrains.com/plugin/RIDER_PLUGIN_ID)
+[![Rider](https://img.shields.io/jetbrains/plugin/v/RIDER_PLUGIN_ID.svg?label=Rider&colorB=0A7BBB&style=for-the-badge&logo=rider)](https://plugins.jetbrains.com/plugin/27177-show-project-tree-tooltips)
 
 
 ## Development
