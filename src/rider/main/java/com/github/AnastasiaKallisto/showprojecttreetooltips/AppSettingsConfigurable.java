@@ -1,4 +1,4 @@
-package com.jetbrains.rider.plugins.showprojecttreetooltips;
+package com.github.AnastasiaKallisto.showprojecttreetooltips;
 
 import com.intellij.openapi.options.Configurable;
 import org.jetbrains.annotations.Nls;

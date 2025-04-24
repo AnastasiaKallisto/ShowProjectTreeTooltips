@@ -1,4 +1,4 @@
-package com.jetbrains.rider.plugins.showprojecttreetooltips;
+package com.github.AnastasiaKallisto.showprojecttreetooltips;
 
 
 import com.intellij.openapi.project.Project;
@@ -6,6 +6,7 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
+import com.intellij.psi.impl.source.tree.PsiCommentImpl;
 import com.jetbrains.rider.languages.fileTypes.csharp.psi.CSharpDocComment;
 import com.jetbrains.rider.languages.fileTypes.csharp.psi.CSharpDummyBlock;
 import com.jetbrains.rider.languages.fileTypes.csharp.psi.CSharpNamespaceDeclaration;
@@ -15,7 +16,9 @@ import org.w3c.dom.Document;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 public class TooltipUtils {
@@ -78,8 +81,29 @@ public class TooltipUtils {
         if (csharpElement != null && csharpElement.isPresent()) {
             CSharpDocComment docComment = ((CSharpDummyDeclaration) csharpElement.get()).getDocComment();
             if (docComment != null)
-                return docComment.getMeaningfulText();  // только текст <summary>
+                return docComment.getMeaningfulText().toString();  // только текст <summary>
+
+
+            // Если docComment == null — ищем комментарии "вплоть до элемента"
+            PsiElement[] siblings = csharpElement.get().getParent().getChildren();
+            List<String> collectedComments = new ArrayList<>();
+
+            for (PsiElement sibling : siblings) {
+                if (sibling == csharpElement.get()) break;
+
+                if (sibling instanceof PsiCommentImpl) {
+                    String text = sibling.getText().replaceFirst("^///", "").trim();
+                    if (!text.isEmpty()) {
+                        collectedComments.add(text.replaceFirst("^<summary>", "").replaceFirst("</summary>", ""));
+                    }
+                }
+            }
+
+            if (!collectedComments.isEmpty()) {
+                return String.join("\n", collectedComments);
+            }
         }
+
         return null; // комментарий не найден
     }
 

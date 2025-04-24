@@ -1,4 +1,4 @@
-package com.jetbrains.rider.plugins.showprojecttreetooltips;
+package com.github.AnastasiaKallisto.showprojecttreetooltips;
 
 import com.intellij.ui.JBIntSpinner;
 import com.intellij.ui.components.JBCheckBox;

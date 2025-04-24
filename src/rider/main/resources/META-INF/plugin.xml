@@ -1,27 +1,30 @@
 <idea-plugin require-restart="true">
-  <id>com.jetbrains.rider.plugins.showprojecttreetooltips</id>
+  <id>com.commonroom.showprojecttreetooltips</id>
   <name>Show Project Tree Tooltips</name>
-  <version>1.0.0</version>
+  <version>2025.04.24</version>
   <vendor email="anastasya.kallisto@gmail.com" url="https://github.com/AnastasiaKallisto">Kallisto</vendor>
-  <idea-version since-build="232.0"/>
+  <idea-version since-build="232.6734.9"/>
   <depends>com.intellij.modules.rider</depends>
 
 
   <description>
     This plugin allows you to show tooltips with short description of projects (tag "Description" in .csproj)
     and C# files (tag "summary" in .cs files) in .sln project tree in Rider.
+
+    Works until Rider-build "232.6734.9"
+    Needs Rider SDK at least 2023.3 (and probably JDK-17)
   </description>
 
   <extensions defaultExtensionNs="com.intellij">
     <applicationService
-            serviceImplementation="com.jetbrains.rider.plugins.showprojecttreetooltips.AppSettings"/>
+            serviceImplementation="com.github.AnastasiaKallisto.showprojecttreetooltips.AppSettings"/>
     <applicationConfigurable
             parentId="tools"
             displayName="Project Tooltip Settings"
-            instance="com.jetbrains.rider.plugins.showprojecttreetooltips.AppSettingsConfigurable"
-            id="com.jetbrains.rider.plugins.showprojecttreetooltips.AppSettingsConfigurable"
+            instance="com.github.AnastasiaKallisto.showprojecttreetooltips.AppSettingsConfigurable"
+            id="com.github.AnastasiaKallisto.showprojecttreetooltips.AppSettingsConfigurable"
     />
-    <postStartupActivity implementation="com.jetbrains.rider.plugins.showprojecttreetooltips.TooltipProjectActivity"/>
+    <postStartupActivity implementation="com.github.AnastasiaKallisto.showprojecttreetooltips.TooltipProjectActivity"/>
   </extensions>
 
 </idea-plugin>
