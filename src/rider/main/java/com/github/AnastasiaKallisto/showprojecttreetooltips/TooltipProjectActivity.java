@@ -33,7 +33,7 @@ public class TooltipProjectActivity implements ProjectActivity {
 
     /**
      * Метод выполняется при старте проекта.
-     * Инициализирует слушатель наведения мыши на дерево проекта.
+     * инициализирует слушатель наведения мыши на дерево проекта.
      *
      * @param project      текущий проект Rider
      * @param continuation kotlin-контекст для совместимости с coroutines
@@ -101,27 +101,12 @@ public class TooltipProjectActivity implements ProjectActivity {
                     // Определяем расширение файла
                     var fileExtension = virtualFile.getExtension();
 
-                    String tooltipText = null;
-
-                    // Извлекаем текст подсказки в зависимости от типа файла
+                    // извлекаем текст подсказки в зависимости от типа файла
                     if (state.showCsprojDescription && "csproj".equals(fileExtension)) {
-                        tooltipText = TooltipUtils.extractXmlTag(virtualFile, "Description");
+                        TooltipUtils.safeExtractTooltip(project, () -> TooltipUtils.extractXmlTag(virtualFile, "Description"), tree, state.maxSymbols);
                     } else if (state.showClassSummary && "cs".equals(fileExtension)) {
-                        tooltipText = TooltipUtils.extractSummary(virtualFile, project);
+                        TooltipUtils.safeExtractTooltip(project, () -> TooltipUtils.extractSummary(virtualFile, project), tree, state.maxSymbols);
                     }
-
-                    // Устанавливаем тултип
-                    if (tooltipText != null) {
-                        String htmlTooltip;
-
-                        htmlTooltip = "<html><body style='width:200px;'>" +
-                                tooltipText.substring(0, Math.min(tooltipText.length(), state.maxSymbols)) +
-                                "</body></html>";
-                        tree.setToolTipText(htmlTooltip);
-                    } else {
-                        tree.setToolTipText(null);
-                    }
-
                 }
             });
         });
