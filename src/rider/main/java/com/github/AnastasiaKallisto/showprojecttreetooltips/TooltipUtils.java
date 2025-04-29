@@ -10,7 +10,6 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
 import com.intellij.psi.impl.source.tree.PsiCommentImpl;
 import com.intellij.util.concurrency.AppExecutorUtil;
-import com.jetbrains.rider.languages.fileTypes.csharp.psi.CSharpDocComment;
 import com.jetbrains.rider.languages.fileTypes.csharp.psi.CSharpDummyBlock;
 import com.jetbrains.rider.languages.fileTypes.csharp.psi.CSharpNamespaceDeclaration;
 import com.jetbrains.rider.languages.fileTypes.csharp.psi.impl.CSharpDummyDeclaration;
@@ -141,11 +140,8 @@ public class TooltipUtils {
 
         // извлекаем XML-комментарий, если он есть
         if (csharpElement != null && csharpElement.isPresent()) {
-            CSharpDocComment docComment = ((CSharpDummyDeclaration) csharpElement.get()).getDocComment();
-            if (docComment != null)
-                return docComment.getMeaningfulText().toString();  // только текст <summary>
 
-            // Если docComment == null — ищем комментарии "вплоть до элемента"
+            // ищем комментарии "вплоть до элемента"
             PsiElement[] siblings = csharpElement.get().getParent().getChildren();
             List<String> collectedComments = new ArrayList<>();
 

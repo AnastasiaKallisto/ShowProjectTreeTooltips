@@ -1,7 +1,7 @@
-<idea-plugin require-restart="true">
+<idea-plugin require-restart="false">
   <id>com.commonroom.showprojecttreetooltips</id>
   <name>Show Summary Tooltips</name>
-  <version>2025.04.26</version>
+  <version>2025.04.29</version>
   <vendor email="anastasya.kallisto@gmail.com" url="https://github.com/AnastasiaKallisto">Kallisto</vendor>
   <idea-version since-build="232.6734.9"/>
   <depends>com.intellij.modules.rider</depends>
@@ -11,7 +11,7 @@
     This plugin allows you to show tooltips with short description of projects (tag "Description" in .csproj)
     and C# files (tag "summary" in .cs files) in .sln project tree in Rider.
 
-    Works since Rider-build "232.6734.9".
+    Works since Rider-build "232.6734.9" until "243.25659.35".
     Needs Rider SDK at least 2023.3 (and probably JDK-17, but I'm not sure, huh).
   </description>
 

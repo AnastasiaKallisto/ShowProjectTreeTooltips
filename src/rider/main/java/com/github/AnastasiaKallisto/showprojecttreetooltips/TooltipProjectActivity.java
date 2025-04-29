@@ -51,12 +51,6 @@ public class TooltipProjectActivity implements ProjectActivity {
             // Получаем настройки плагина
             var state = AppSettings.getInstance().getState();
 
-            // Подстройка цвета тултипов под светлую тему IDE, если она включена
-            /*if (!UIManager.getColor("Tooltip.background").equals(new Color(43,45,48))) {
-                UIManager.put("ToolTip.background", Color.WHITE);
-                UIManager.put("ToolTip.foreground", Color.BLACK);
-            }*/
-
             Color tooltipBg = UIManager.getColor("Tooltip.background");
             Color tooltipFg = UIManager.getColor("Tooltip.foreground");
             UIManager.put("ToolTip.background", tooltipBg);
